@@ -13,6 +13,7 @@ def get_dataframe():
     else:
         dates = []
         section = []
+        entry = {}
         months = ['year', 'january', 'febuary', 'march', 'april', 'may', 'june', 'july', 
                     'august', 'september', 'october', 'november', 'december']
         table = soup.find("table", class_="FloatTitle")
@@ -23,33 +24,26 @@ def get_dataframe():
                 for tabledata in tablerow:
                     column = tabledata.find_all('td')
                     if len(column) > 1:
+                        i = 0
                         for data in column:
                             if data.text != '' and data.text != 'NA':
-                                section.append(float(data.text.strip()))
+                                if 'class="B4"' not in str(data):
+                                    entry[months[i]] = float(data.text.strip())
+                                else:
+                                    #save year as a string instead of float
+                                    entry[months[i]] = data.text.strip()
                             else:
-                                section.append(None)
-                        dates.append(section)
-                    section = []
+                                entry[months[i]] = None
+                            i = i + 1
+                        dates.append(entry)
+                    entry = {}
             else:
                 print("Could not fetch table row")
         else:
             print("Could not fetch table")
 
-        #O(N^2) Time complexity
-        '''dateDict = []
-        months = ['year', 'january', 'febuary', 'march', 'april', 'may', 'june', 'july', 
-                    'august', 'september', 'october', 'november', 'december']
-        for dateRow in dates:
-        #    i = 2003
-        #    dictTitle = 'Year:' + str(i)
-            entry = {}
-            i = 0
-            for cell in dateRow:
-                entry[months[i]] = cell
-                i = i + 1
-            dateDict.append(entry)'''
 
-        return pd.DataFrame(dateDict)
+        return pd.DataFrame(dates)
 
 if __name__ == '__main__':
     dataframe = get_dataframe()
