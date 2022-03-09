@@ -1,0 +1,1 @@
+A data web scraper using python beautiful soup, takes the gas prices in Massachusetts over the years starting in 2003, cleans data such that blanks are not counted in averages for years. 
