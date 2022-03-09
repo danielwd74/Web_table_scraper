@@ -48,4 +48,5 @@ def get_dataframe():
 if __name__ == '__main__':
     dataframe = get_dataframe()
     getInfo.get_mean(dataframe)
+    getInfo.plot_data(dataframe)
 
