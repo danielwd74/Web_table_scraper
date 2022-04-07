@@ -44,11 +44,13 @@ def plot_weekly_data(dataframe):
     plt.show()
 
 def plot_weekly_heatmap(df: pd.DataFrame):
+    print(df)
     years = df['year'].unique()
     months = df['month'].unique()
     months_label = ['January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    months_label_abr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     new_list = []
-    for month in months:
+    for month in months_label_abr:
         month_list = []
         for year in years:
             #print(df['average'].loc[(df['month'] == month) & (df['year'] == year)])
@@ -65,7 +67,7 @@ def plot_weekly_heatmap(df: pd.DataFrame):
     fig, ax = plt.subplots()
     im = ax.imshow(new_list, cmap=cmap.hot)
 
-    ax.set_yticks(np.arange(len(months)), labels=reversed(months_label))
+    ax.set_yticks(np.arange(len(months)), labels=months_label)
     ax.set_xticks(np.arange(len(years)), labels=years)
 
     plt.setp(ax.get_xticklabels(), rotation=90, ha='right', rotation_mode='anchor')
